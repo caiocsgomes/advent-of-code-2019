@@ -17,19 +17,16 @@ def createPath(moves):
         if direction == 'U':
             for i in range(move + 1):
                 coordinatesList.append((currentX, currentY + i))
-            coordinate = coordinatesList[-1]
         elif direction == 'D':
             for i in range(0, -(move + 1), -1):
                 coordinatesList.append((currentX, currentY + i))
-            coordinate = coordinatesList[-1]
         elif direction == 'R':
             for i in range(move + 1):
                 coordinatesList.append((currentX + i, currentY))
-            coordinate = coordinatesList[-1]
         elif direction == 'L':
             for i in range(0, -(move + 1), -1):
                 coordinatesList.append((currentX + i, currentY))
-            coordinate = coordinatesList[-1]
+        coordinate = coordinatesList[-1]
     return coordinatesList
 
 def calculateDist(coordinate):
