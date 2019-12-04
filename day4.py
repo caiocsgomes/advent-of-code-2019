@@ -27,14 +27,11 @@ def validade_number_part2(number):
     for i in range(len(string_number) - 1):
         if string_number[i] == string_number[i + 1]:
             if i == 0:
-                two_adjacent_equals = string_number[i + 1] != string_number[i + 2]
+                two_adjacent_equals = string_number[i + 1] != string_number[i + 2] or two_adjacent_equals
             elif i == 4:
-                two_adjacent_equals = string_number[i] != string_number[i - 1]
+                two_adjacent_equals = string_number[i] != string_number[i - 1] or two_adjacent_equals
             else:
-                two_adjacent_equals = (string_number[i - 1] != string_number[i]) and (string_number[i + 1] != string_number[i + 2])
-        if two_adjacent_equals:
-            break
-    for i in range(len(string_number) - 1):
+                two_adjacent_equals = (string_number[i - 1] != string_number[i]) and (string_number[i + 1] != string_number[i + 2]) or two_adjacent_equals
         if string_number[i] > string_number[i + 1]:
             incremental = False
 
