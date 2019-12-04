@@ -29,22 +29,19 @@ def createPath(moves):
         coordinate = coordinatesList[-1]
     return coordinatesList
 
-def calculateDist(coordinate):
-    return abs(coordinate[0]) + abs(coordinate[1])
-
-def getSmallestDist(coordinates):
-    smallestDist = sys.maxsize
-    for coordinate in coordinates:
-        distance = calculateDist(coordinate)
-        if distance < smallestDist and distance != 0:
-            smallestDist = distance
-    return smallestDist
-
 movementsA = createPath(moves[0])
 movementsB = createPath(moves[1])
 
 intersections = list(set(movementsA) & (set(movementsB)))
 
-distance = getSmallestDist(intersections)
+smallest = sys.maxsize
+coordinate = ()
+for intersection in intersections:
+    distanceA = movementsA.index(intersection) - 1
+    distanceB = movementsB.index(intersection) - 1
+    distance = distanceA + distanceB
+    if(distance < smallest and distance > 0):
+        smallest = distance
+        coordinate = intersection
 
-print(distance)
+print(smallest)
