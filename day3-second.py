@@ -15,16 +15,16 @@ def createPath(moves):
         move = int(moves[i][1:])
         direction = moves[i][0]
         if direction == 'U':
-            for i in range(move + 1):
+            for i in range(1, move + 1, 1):
                 coordinatesList.append((currentX, currentY + i))
         elif direction == 'D':
-            for i in range(0, -(move + 1), -1):
+            for i in range(-1, -(move + 1), -1):
                 coordinatesList.append((currentX, currentY + i))
         elif direction == 'R':
-            for i in range(move + 1):
+            for i in range(1, move + 1, 1):
                 coordinatesList.append((currentX + i, currentY))
         elif direction == 'L':
-            for i in range(0, -(move + 1), -1):
+            for i in range(-1, -(move + 1), -1):
                 coordinatesList.append((currentX + i, currentY))
         coordinate = coordinatesList[-1]
     return coordinatesList
@@ -35,13 +35,9 @@ movementsB = createPath(moves[1])
 intersections = list(set(movementsA) & (set(movementsB)))
 
 smallest = sys.maxsize
-coordinate = ()
 for intersection in intersections:
-    distanceA = movementsA.index(intersection) - 1
-    distanceB = movementsB.index(intersection) - 1
-    distance = distanceA + distanceB
+    distance = movementsA.index(intersection) + movementsB.index(intersection) + 2
     if(distance < smallest and distance > 0):
         smallest = distance
-        coordinate = intersection
 
 print(smallest)
