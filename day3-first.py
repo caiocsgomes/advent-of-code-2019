@@ -6,7 +6,8 @@ with open("day3-input.txt", "r") as file:
     reader = csv.reader(file)
     moves = list(reader)
 
-def createPath(moves):
+
+def create_path(moves):
     coordinate = (0, 0)
     coordinatesList = []
     for i in range(len(moves)):
@@ -15,36 +16,39 @@ def createPath(moves):
         move = int(moves[i][1:])
         direction = moves[i][0]
         if direction == 'U':
-            for i in range(move + 1):
+            for i in range(1, move + 1, 1):
                 coordinatesList.append((currentX, currentY + i))
         elif direction == 'D':
-            for i in range(0, -(move + 1), -1):
+            for i in range(-1, -(move + 1), -1):
                 coordinatesList.append((currentX, currentY + i))
         elif direction == 'R':
-            for i in range(move + 1):
+            for i in range(1, move + 1, 1):
                 coordinatesList.append((currentX + i, currentY))
         elif direction == 'L':
-            for i in range(0, -(move + 1), -1):
+            for i in range(-1, -(move + 1), -1):
                 coordinatesList.append((currentX + i, currentY))
         coordinate = coordinatesList[-1]
     return coordinatesList
 
-def calculateDist(coordinate):
+
+def calculate_dist(coordinate):
     return abs(coordinate[0]) + abs(coordinate[1])
 
-def getSmallestDist(coordinates):
+
+def get_smallest_dist(coordinates):
     smallestDist = sys.maxsize
     for coordinate in coordinates:
-        distance = calculateDist(coordinate)
+        distance = calculate_dist(coordinate)
         if distance < smallestDist and distance != 0:
             smallestDist = distance
     return smallestDist
 
-movementsA = createPath(moves[0])
-movementsB = createPath(moves[1])
+
+movementsA = create_path(moves[0])
+movementsB = create_path(moves[1])
 
 intersections = list(set(movementsA) & (set(movementsB)))
 
-distance = getSmallestDist(intersections)
+distance = get_smallest_dist(intersections)
 
 print(distance)

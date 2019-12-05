@@ -6,7 +6,8 @@ with open("day3-input.txt", "r") as file:
     reader = csv.reader(file)
     moves = list(reader)
 
-def createPath(moves):
+
+def create_path(moves):
     coordinate = (0, 0)
     coordinatesList = []
     for i in range(len(moves)):
@@ -29,15 +30,16 @@ def createPath(moves):
         coordinate = coordinatesList[-1]
     return coordinatesList
 
-movementsA = createPath(moves[0])
-movementsB = createPath(moves[1])
+
+movementsA = create_path(moves[0])
+movementsB = create_path(moves[1])
 
 intersections = list(set(movementsA) & (set(movementsB)))
 
 smallest = sys.maxsize
 for intersection in intersections:
     distance = movementsA.index(intersection) + movementsB.index(intersection) + 2
-    if(distance < smallest and distance > 0):
+    if (distance < smallest and distance > 0):
         smallest = distance
 
 print(smallest)
