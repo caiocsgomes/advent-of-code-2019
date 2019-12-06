@@ -40,21 +40,16 @@ class InstructionParser:
     def parse(number: int):
         number_string = str(number)
         op_code = int(number_string[-1])
+        parameter_mode_1 = (Mode.POSITION 
+                            if len(number_string) <= 2 
+                            else Mode.POSITION 
+                                if number_string[-3] == '0' 
+                                else Mode.IMMEDIATE)
         if op_code in (3, 4):
             instruction_size = 2
-            parameter_mode_1 = (Mode.POSITION 
-                                if len(number_string) <= 2 
-                                else Mode.POSITION 
-                                    if number_string[-3] == '0' 
-                                    else Mode.IMMEDIATE)
             return Instruction(op_code, parameter_mode_1, None, None, instruction_size)
         else:
             instruction_size = 4 if op_code not in (5, 6) else 3
-            parameter_mode_1 = (Mode.POSITION 
-                                if len(number_string) <= 2 
-                                else Mode.POSITION 
-                                    if number_string[-3] == '0' 
-                                    else Mode.IMMEDIATE)
             parameter_mode_2 = (Mode.POSITION 
                                 if len(number_string) <= 3 
                                 else Mode.POSITION 
