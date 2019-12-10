@@ -7,4 +7,7 @@ with open("day9-input.txt", "r") as f:
 
 machine = IntcodeMachine(software[:])
 machine.execute(1)
-print(machine.output())
+print("Part1 :", machine.out())
+machine.reset_software(software[:])
+machine.execute(2)
+print("Part2 :", machine.out())
