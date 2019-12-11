@@ -5,7 +5,7 @@ class IntcodeMachine:
     def __init__(self, s):
         self._soft = list(map(int, s)) + [0] * 100000
         self._ptr = 0
-        self._out = 0
+        self._out = []
         self.inp = None
         self._halt = False
         self._started = False
@@ -36,15 +36,12 @@ class IntcodeMachine:
         self._ptr += 4
 
     def input(self, inp, pos):
-        if inp is None:
-            # input already used
-            raise Exception("Input unavailable")
         self._soft[pos] = inp
         self.inp = None
         self._ptr += 2
 
     def output(self, val):
-        self._out = val
+        self._out.append(val)
         self._ptr += 2
 
     def jump_if_true(self, val1, val2):
@@ -79,6 +76,7 @@ class IntcodeMachine:
 
     def execute(self, inp):
         self.inp = inp
+        self._out = []
         while self._ptr < len(self._soft):
             self._started = True
             instr = self._soft[self._ptr]
@@ -121,6 +119,8 @@ class IntcodeMachine:
             elif op == 2:
                 self.multiply(v1, v2, p3)
             elif op == 3:
+                if self.inp is None:
+                    break
                 self.input(self.inp, p1)
             elif op == 4:
                 self.output(v1)
