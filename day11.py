@@ -31,20 +31,47 @@ def turn_direction(face, inp):
             return 'down', (0, -1)
 
 
-curr_face = 'up'
-curr_pos = (0, 0)
-canvas = 10 * [10 * [0]]
-machine = IntcodeMachine(software[:])
-steps = 0
+def draw_canvas(canvas, soft):
+    curr_face = 'up'
+    width = len(canvas[0])
+    height = len(canvas)
+    curr_pos = (width // 2, height // 2)
+    machine = IntcodeMachine(soft[:])
+    panels_painted = set()
+    # first output: color to paint
+    # second: direction
+    while machine is not machine.halted():
+        inp = canvas[curr_pos[0]][curr_pos[1]]
+        machine.execute(inp)
+        out = machine.out()
+        if len(out) == 0:  # the machine has no output
+            break
+        curr_face, mov = turn_direction(curr_face, out[1])
+        canvas[curr_pos[0]][curr_pos[1]] = out[0]
+        curr_pos = (curr_pos[0] + mov[0], curr_pos[1] + mov[1])
+        panels_painted.add(curr_pos)
 
-# first output: color to paint
-# second: direction
-while machine is not machine.halted():
-    machine.execute(canvas[curr_pos[0]][curr_pos[1]])
-    out = machine.out()
-    curr_face, mov = turn_direction(curr_face, out[1])
-    canvas[curr_pos[0]][curr_pos[1]] = out[0]
-    curr_pos = (curr_pos[0] + mov[0], curr_pos[1] + mov[1])
-    steps += 1
+    white_color = bytes((219,)).decode('cp437')
 
-print(steps)
+    for x in range(width):
+        for y in range(height):
+            if canvas[x][y] == 0:
+                canvas[x][y] = ''
+            else:
+                canvas[x][y] = white_color
+
+    return canvas, len(panels_painted)
+
+
+canvas = [[0] * 100 for _ in range(100)]
+_, panels_painted = draw_canvas(canvas, software)
+print("Part 1:", panels_painted)
+
+canvas = [[0] * 100 for _ in range(100)]
+canvas[50][50] = 1
+
+registration_canvas, _ = draw_canvas(canvas, software)
+
+print("Part 2:")
+for panel in registration_canvas:
+    print(' '.join(panel))
