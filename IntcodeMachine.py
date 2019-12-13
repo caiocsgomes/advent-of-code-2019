@@ -23,7 +23,7 @@ class IntcodeMachine:
     def reset_software(self, s):
         self._soft = list(map(int, s)) + [0] * 100000
         self._ptr = 0
-        self._out = 0
+        self._out = []
         self._started = False
         self._rel_base = 0
 
@@ -74,7 +74,7 @@ class IntcodeMachine:
         self._rel_base += val
         self._ptr += 2
 
-    def execute(self, inp):
+    def execute(self, inp=None):
         self.inp = inp
         self._out = []
         while self._ptr < len(self._soft):
