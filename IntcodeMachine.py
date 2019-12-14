@@ -26,6 +26,7 @@ class IntcodeMachine:
         self._out = []
         self._started = False
         self._rel_base = 0
+        self._halt = False
 
     def add(self, val1, val2, out_pos):
         self._soft[out_pos] = val1 + val2
