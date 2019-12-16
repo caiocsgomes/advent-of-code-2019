@@ -34,7 +34,7 @@ ball_x = 0
 paddle_x = 0
 inp = 0
 block = 15
-while True:
+while not machine.halted():
     machine.execute(inp)
     out = machine.out()
     tiles = [out[x:x + 3] for x in range(0, len(out), 3)]
@@ -69,6 +69,5 @@ while True:
         inp = 0
 
     pygame.display.update()
-    pygame.time.delay(200)
 
 print("Part 2:", score)
